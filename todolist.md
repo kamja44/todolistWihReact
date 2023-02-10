@@ -84,3 +84,73 @@ function ToDoList() {
   );
 }
 ```
+
+# 6.7
+
+useForm()의 handleSubmit
+
+- handleSubmit은 2가지 argument를 받는다.
+  - 첫 번째 argument는 데이터가 유효할 때 호출되는 함수이다.(필수)
+  - 두 번째 argument는 데이터가 유효하지 않을 때 호출되는 함수이다.[선택]
+  - 기존의 onSubmit 함수 대체
+
+```js
+const onValid = (data: any) => {
+  console.log(data);
+};
+<form onSubmit={handleSubmit(onValid)}></form>;
+```
+
+useForm()의 formState
+
+- handleSubmit의 오류제어를 도와준다.
+  - 즉, error를 자동으로 처리한다.
+
+```js
+const { register, watch, handleSubmit, formState } = useForm();
+console.log(formState.errors);
+return (
+  <div>
+    <form onSubmit={handleSubmit(onValid)}>
+      <input {...register("email", { required: true })} placeholder="Email" />
+      <input
+        {...register("firstName", { required: true, minLength: 5 })}
+        placeholder="First Name"
+      />
+      <input
+        {...register("lastName", { required: true, minLength: 5 })}
+        placeholder="Last Name"
+      />
+      <input
+        {...register("userName", {
+          required: true,
+          minLength: {
+            value: 5,
+            message: "Your password is too short!!!",
+          },
+        })}
+        placeholder="User Name"
+      />
+      <input
+        {...register("password", {
+          required: true,
+          minLength: {
+            value: 5,
+            message: "Your password is too short!!!",
+          },
+        })}
+        placeholder="Password"
+      />
+      <input
+        {...register("ConfirmPassword", {
+          required: "confirm password is required",
+          minLength: 5,
+        })}
+        placeholder="Confirm Password"
+      />
+      <button>Add</button>
+    </form>
+  </div>
+);
+// error 발생 시 어느 부분에서 에러가 발생했는지, 에러메시지를 보여준다.
+```
