@@ -154,3 +154,50 @@ return (
 );
 // error 발생 시 어느 부분에서 에러가 발생했는지, 에러메시지를 보여준다.
 ```
+
+# 6.8
+
+pattern
+
+- 정규표현식을 사용한다.
+
+pattern에 값을 바로 보내는 경우
+
+```js
+<input
+  {...register("email", {
+    required: true,
+    pattern: /^[A-Za-z0-9._%+-]+@naver.com$/,
+  })}
+  placeholder="Email"
+/>
+```
+
+pattern에 값을 객체로 보내는 경우
+
+```js
+<input
+  {...register("email", {
+    required: true,
+    pattern: /^[A-Za-z0-9._%+-]+@naver.com$/,
+  })}
+  placeholder="Email"
+/>
+```
+
+useForm의 기본값 설정하기
+
+```js
+const {
+  register,
+  watch,
+  handleSubmit,
+  formState: { errors },
+} = useForm <
+IForm >
+{
+  defaultValues: {
+    email: `@naver.com`,
+  },
+};
+```
