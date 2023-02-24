@@ -201,3 +201,50 @@ IForm >
   },
 };
 ```
+
+# 6.9
+
+setError를 사용하여 직접 에러를 설정
+server가 offline이 될 수 있기에 extraError 타입을 지정
+
+```js
+interface IForm {
+  email: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+  password: string;
+  ConfirmPassword: string;
+  extraError ?: string;
+}
+// setError는 react-hook-form(useForm)에서 제공한다.
+const{setError} = useForm<IForm>();
+const onValid = (data : IForm) => {
+  if(data.password !== data.ConfirmPassword){
+    setError("ConfirmPassword",{message : "Password are not the same"}, {shouldFocus : true})
+  }
+  setError("extraError", {message : "Server offline"})
+}
+        <input
+          {...register("firstName", {
+            required: "write here",
+              validate: {
+              noKamja : (value) =>
+              !value.includes("kamja") ? true : " no kamja allowed",
+              noKokuma : (value) =>
+              !value.includes("kokuma") ? true : " no kokuma allowed",
+            }
+          })}
+          placeholder="First Name"
+        />
+<span>{errors?.extraError?.message}</span>
+// errors가 undefined가 아니면 extraError를 찾고 extraError가 undefined가 아니면 message를 찾는다.
+```
+
+- shouldFocus:true는 submit시 ConfirmPassword에서 에러가 발생하면 focus를 ConfirmPassword로 옮겨준다.
+- validate는 함수를 값으로 가진다.
+  - validate는 인자로 현재 항목에 쓰여지고 있는 값을 받는다.
+  - validate의 결과가 true면 firstName은 항상 검사를 통과한다.
+  - 위의 코드에선 firstName에 kamja가 들어가면 false를 반환한다. - 즉, kamja는 firstName으로 사용이 불가능하다.
+    react-hook-form에서 문자열을 리턴한다면, 에러 메세지를 리턴한다는 뜻이다.
+- validate에 여러개의 규칙을 적용시킬 때 객체를 이용하여 여러개의 규칙을 적용시킬 수 있다.

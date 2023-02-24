@@ -8,6 +8,7 @@ interface IForm {
   username: string;
   password: string;
   ConfirmPassword: string;
+  extraError?: string;
 }
 function ToDoList() {
   const {
@@ -15,13 +16,21 @@ function ToDoList() {
     watch,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<IForm>({
     defaultValues: {
       email: `@naver.com`,
     },
   });
-  const onValid = (data: any) => {
-    console.log(data);
+  const onValid = (data: IForm) => {
+    if (data.password !== data.ConfirmPassword) {
+      setError(
+        "ConfirmPassword",
+        { message: "Password are not the same" },
+        { shouldFocus: true }
+      );
+    }
+    setError("extraError", { message: "Server offline" });
   };
 
   return (
@@ -42,7 +51,15 @@ function ToDoList() {
         />
         <span>{errors?.email?.message}</span>
         <input
-          {...register("firstName", { required: "write here" })}
+          {...register("firstName", {
+            required: "write here",
+            validate: {
+              noKamja: (value) =>
+                !value.includes("kamja") ? true : " no kamja allowed",
+              noKokuma: (value) =>
+                !value.includes("kokuma") ? true : " no kokuma allowed",
+            },
+          })}
           placeholder="First Name"
         />
         <span>{errors?.firstName?.message}</span>
@@ -79,6 +96,7 @@ function ToDoList() {
         />
         <span>{errors?.ConfirmPassword?.message}</span>
         <button>Add</button>
+        <span>{errors?.extraError?.message}</span>
       </form>
     </div>
   );
