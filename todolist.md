@@ -308,3 +308,88 @@ setValue
 setValue("toDo", "");
 // input태그의 이름이 toDo인 태그의 값을 공백으로 설정한다.
 ```
+
+# 6.11
+
+recoil의 atom 함수 이용
+
+- atom함수는 고유한 키가 필요하다.
+- atom 함수는 기본값을 가질 수 있다.
+
+```js
+const toDoState = atom({
+  key: "toDo",
+  default: [],
+});
+```
+
+atom 함수의 값에 접근하려면 useRecoilValue 함수를 이용하면된다.
+
+- `useRecoilValue(atom넣어주기);`
+
+```js
+const toDoState = atom({
+  // toDoState = atom
+  key: "toDo",
+  default: [],
+});
+
+const value = useRecoilValue(toDoState);
+// atom(toDoState)의 기본값이 빈 배열이기 때문에, value의 타입은 배열이된다.
+```
+
+atom의 값을 변경할 때는 useSetRecoilState 함수를 사용한다.
+
+```js
+const modFn = useSetRecoilState(toDoState);
+// atom(toDoState)의 값(배열)을 수정할 수 있다.
+```
+
+useRecoilState
+
+- 기존에는 useRecoilValue로 atom의 값을 받아오고, useSetRecoilState로 atom의 값을 변경했다.
+- useRecoilState 함수를 사용하면 value와 modifier 함수를 반환한다.
+  - 반환되는 배열의 첫 번째 항목은 데이터의 value이다.
+  - 반환되는 배열의 두 번째 항목은 value를 변경하기 위해 사용되는 함수이다.
+- `const [value, modifier] = useRecoilState(atom 넣어주기);`
+
+```js
+const [value, modFn] = useRecoilState(toDoState);
+```
+
+즉, 위의 코드는 아래와 동일하게 동작한다.
+
+```js
+const value = useRecoilValue(toDoState);
+const modFn = useSetRecoilState(toDoState);
+```
+
+```js
+const [toDos, setToDos] = useRecoilState(toDoState);
+```
+
+위의 코드에서 toDos의 타입은 never타입으로 배열에 아무값도 들어갈 수 없다.
+
+- TS를 이용하여 타입을 변경한다.
+
+```js
+interface IForm {
+  toDo: string;
+  category: "TO_DO" | "DOING" | "DONE";
+}
+// toDo는 string 타입
+// category는 TO_DO, DOING, DONE 3가지 문자열 중 하나만 가질 수 있다.
+
+const toDoState = atom<IToDo[]>({ // atom은 IToDo[]타입임을 명시한다.
+  key: "toDo",
+  default: [],
+});
+```
+
+setToDos 함수를 이용하여 이전의 state를 oldToDos로 받아서 배열을 반환한다.
+
+```js
+setToDos((oldToDos) => [...oldToDos]);
+```
+
+- 반환받은 배열은 oldToDos의 모든 요소를 갖는다.
