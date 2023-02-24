@@ -248,3 +248,63 @@ const onValid = (data : IForm) => {
   - 위의 코드에선 firstName에 kamja가 들어가면 false를 반환한다. - 즉, kamja는 firstName으로 사용이 불가능하다.
     react-hook-form에서 문자열을 리턴한다면, 에러 메세지를 리턴한다는 뜻이다.
 - validate에 여러개의 규칙을 적용시킬 때 객체를 이용하여 여러개의 규칙을 적용시킬 수 있다.
+
+# useForm 정리
+
+- react-hook-form
+- 모든 기능은 useForm()을 호출한 객체에서 나온다
+
+register 함수는 useForm hook을 사용해서 가져올 수 있다.
+
+- register 함수를 모든 input에서 호출한다.
+  - react-hook-form이 알 수 있도록 input의 이름을 줘야 한다.
+    - react-hook-form이 data 객체에 input 값을 주고, 에러를 확인할 수 있다.
+    - pattern을 이용하여 데이터의 형태를 설정할 수 있다.(정규식)
+    - validation을 사용하여 검사 규칙을 설정할 수 있다.
+  - react-hook-form은 에러 객체를 제공한다.
+    - 개발자가 설정한 규칙과 메세지에 따라 알아서 에러 메시지가 설정된다.
+
+handleSubmit
+
+- useForm hook에서 제공하는 함수이다.
+- form태그의 onSubmit 이벤트에 handleSubmit이벤트를 등록해야 한다.
+  - 인자는 딱 하나를 받는데 onValid 함수를 받는다.
+    - 즉, 첫번째 매개변수로 데이터가 유효할 때 호출되는 다른 함수를 받는다.
+    - 데이터가 유효하지 않을 때 호출 될 다른 함수를 2번째 매개변수로 넣을 수 있다.
+
+onValid
+
+- 사용자의 form 데이터가 유효할 때만 호출되는 함수이다. -즉, onValid 함수가 호출되었다면, form이 모든 validation을 통과했고, 모든 input의 입력값들이 다 정상적이고 에러가 없다는 뜻이다.
+
+formState
+
+- useForm hook에서 제공하는 함수이다.
+- form의 state가 들어있다.
+- 에러 객체가 formState 내부에 존재한다.
+
+errors
+
+- formState의 에러 객체이다.
+
+defaultValues
+
+- defaultValues를 이용하여 기본값을 설정할 수 있다.
+
+setError
+
+- 코드에서 에러를 발생시킬 때 매우 유용하다.
+- setError("에러를 발생시킬 항목(에러 발생 위치)", {message : "에러 내용"})
+
+shouldFocus
+
+- 사용자가 form을 submit 할 때 에러를 발생시키면 커서를 해당 input에 focus시켜준다.
+
+setValue
+
+- useForm hook에서 제공한다.
+- input태그의 값을 설정할 수 있다.
+
+```js
+setValue("toDo", "");
+// input태그의 이름이 toDo인 태그의 값을 공백으로 설정한다.
+```
