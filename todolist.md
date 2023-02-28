@@ -393,3 +393,55 @@ setToDos((oldToDos) => [...oldToDos]);
 ```
 
 - 반환받은 배열은 oldToDos의 모든 요소를 갖는다.
+
+  6.13
+
+argument가 있는 event 처리 방법 1
+
+```js
+function ToDo({ text, category }: IToDo) {
+  const onClick = (newCategory: IToDo["category"]) => {};
+  //IToDo["category"]를 사용함으로써 newCategory의 타입이 IToDo interface의 category 항목임을 알려준다.
+  return (
+    <li>
+      <span>{text}</span>
+      {category !== "DOING" && (
+        <button onClick={() => onClick("DOING")}>Doing</button>
+      )}
+      // () => onClick("DOING")이런 식으로 작성하면 JS 엔진이 함수를 실행하여
+      인자를 넘긴다.
+      {category !== "TO_DO" && (
+        <button onClick={() => onClick("TO_DO")}>To Do</button>
+      )}
+      {category !== "DONE" && (
+        <button onClick={() => onClick("DONE")}>Done</button>
+      )}
+    </li>
+  );
+}
+```
+
+event 처리 방법 2
+
+```js
+function ToDo({ text, category }: IToDo) {
+  const onClick = (event : React.MouseEvent<HTMLButtonElement) => {
+    // html의 name을 event를 통해 받아올 수 있다.
+    console.log(`I want ${event.currentTarget.value}`);
+  };
+  return (
+    <li>
+      <span>{text}</span>
+      {category !== "DOING" && (
+        <button name = "DOING" onClick={onClick}>Doing</button>
+      )}
+      {category !== "TO_DO" && (
+        <button name = "TO_DO" onClick={onClick}>To Do</button>
+      )}
+      {category !== "DONE" && (
+        <button name = "DONE" onClick={onClick}>Done</button>
+      )}
+    </li>
+  );
+}
+```
