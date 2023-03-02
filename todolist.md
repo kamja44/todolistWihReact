@@ -421,7 +421,7 @@ function ToDo({ text, category }: IToDo) {
 }
 ```
 
-event 처리 방법 2
+argument가 있는 event 처리 방법 2
 
 ```js
 function ToDo({ text, category }: IToDo) {
