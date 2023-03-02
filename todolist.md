@@ -445,3 +445,10 @@ function ToDo({ text, category }: IToDo) {
   );
 }
 ```
+
+# 6.14
+
+JS
+
+- findIndex
+  - 조건을 만족하는 todo의 Index를 찾는다.
