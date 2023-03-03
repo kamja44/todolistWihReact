@@ -473,3 +473,14 @@ const back = ["kimchi", "kimbab"];
 const finalPart = [...front, "감", ...back];
 // ...배열 => 배열의 모든 요소를 풀어놓는다.
 ```
+
+# 6.16
+
+recoil의 selector
+
+- selector를 이용하면 어떤 state를 가져다가 다른 state를 만들 수 있다.
+- 즉, selector는 atom을 받아서 그 atom을 변형할 수 있다.
+
+filter
+
+- 배열에서 조건에 맞지 않는 원소들을 제거한 배열을 return한다.
