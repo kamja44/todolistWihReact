@@ -484,3 +484,8 @@ recoil의 selector
 filter
 
 - 배열에서 조건에 맞지 않는 원소들을 제거한 배열을 return한다.
+
+# 코드챌린지
+
+- todo delete 기능 생성
+- localStoragae를 이용하여 저장하기

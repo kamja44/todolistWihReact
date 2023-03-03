@@ -18,6 +18,7 @@ function ToDo({ text, category, id }: IToDo) {
       ];
     });
   };
+
   return (
     <li>
       <span>{text}</span>
@@ -36,6 +37,9 @@ function ToDo({ text, category, id }: IToDo) {
           Done
         </button>
       )}
+      <button name="Delete" onClick={onClick}>
+        Delete
+      </button>
     </li>
   );
 }
