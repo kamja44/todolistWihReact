@@ -452,3 +452,24 @@ JS
 
 - findIndex
   - 조건을 만족하는 todo의 Index를 찾는다.
+
+# 6.15
+
+배열의 위치 교체하기
+
+- mango 데이터를 "감"으로 변경
+
+```js
+const food = ["pizza", "mango", "kimchi", "kimbab"];
+// 1. 교체할 데이터의 index 찾기 => 1
+const target = 1;
+// 2. 찾은 index를 기준으로 배열 나누기
+food.slice(0, target); // front
+food.slice(target + 1); // back
+// ex) mango를 교체한다고 가정하면 ["pizza"]배열과 ["kimchi","kimbab"] 배열로 나누기
+const front = ["pizza"];
+const back = ["kimchi", "kimbab"];
+// 나누 배열(front, back)을 기준으로 새 배열 만들기
+const finalPart = [...front, "감", ...back];
+// ...배열 => 배열의 모든 요소를 풀어놓는다.
+```
